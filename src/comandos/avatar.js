@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+
 module.exports = (client, message, args) => {
   let persona = message.mentions.users.first();
 
@@ -7,7 +8,7 @@ module.exports = (client, message, args) => {
   let embed = new Discord.MessageEmbed()
     .setImage(`${persona.displayAvatarURL()}`)
     .setColor(0x66b3ff)
-    .setFooter(`Avatar de ${persona.username.tag}`);
+    .setFooter(`Avatar de ${persona.username}`);
 
   message.channel.send(embed);
 };

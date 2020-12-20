@@ -1,3 +1,4 @@
 module.exports = {
-  prefix: ">>",
+  dirBase: "./src/database/db/001_base.db",
+  prefix: "#",
 };

@@ -1,7 +1,6 @@
-//Esta función se activara por cada mensaje enviado en un canal por el usuario:
 const { prefix } = require("../config/config");
 
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
   if (!message.content.startsWith(prefix)) return;
   if (message.author.bot) return;
 
