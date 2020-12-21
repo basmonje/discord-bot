@@ -4,18 +4,14 @@ module.exports = (client, message, args) => {
       color: 3447002,
       fields: [
         {
-          name: "Nombre de usuario",
-          value: `${message.author.username} \n Su ID es ${message.author.id}`,
-        },
-        {
-          name: "Otros ejemplos",
-          value: `${message.member}`,
+          name: "Soy Sonic",
+          value: "testing",
         },
       ],
       timestamp: new Date(),
       footer: {
         icon_url: client.user.avatarURL(),
-        text: "Abril",
+        text: "Eloisaow",
       },
     },
   });

@@ -22,6 +22,8 @@ for (const file of readdirSync("./src/eventos/")) {
   }
 }
 
+/* console.log(client); */
+
 client
   .login(process.env.TOKEN)
   .then(() => {
