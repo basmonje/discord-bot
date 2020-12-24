@@ -1,14 +1,13 @@
 require("dotenv").config();
-const express = require("express");
+import express from "express";
+import path from "path";
 const app = express();
 
-const path = __dirname.substring(0, __dirname.length - 3);
-
 app.get("/", (req, res) => {
-  res.sendFile(path + "/views/index.html");
+  res.sendFile(path.join(__dirname, "/views/index.html"));
 });
 
-app.use(express.static(path + "/public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.listen(4000, () => {
   console.log("Servidor en puerto 4000");

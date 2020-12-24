@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node bui/index.js",
+    "start": "npm run build && node build/index.js",
     "dev": "nodemon src/index.js --exec babel-node",
-    "build": "babel src --out-dir bui"
+    "build": "babel src --out-dir build"
   },
   "keywords": [],
   "author": "",
