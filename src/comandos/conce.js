@@ -1,28 +1,31 @@
 import { getGael, getMeteored } from "../api/getMeteorology";
 
+getMeteored();
+
 module.exports = async (client, message, args) => {
   if (!args[0])
     return message.channel.send({
       embed: {
         color: "#FFFF00",
-        title: "Debes ingresar un valor",
-        description: "Lista de argumentos disponible",
+        title: "No has ingresado un argumento",
+        description: "Lista de comandos disponibles",
         fields: [
           {
-            name: "#conce day",
-            value: "Este valor mostrara la temperatura actual",
+            name: "#conce now",
+            value: "Este valor mostrará la temperatura actual",
             inline: false,
           },
           {
-            name: "#conce more",
-            value: "Este valor mostrara la temperatura actual",
+            name: "#conce day",
+            value:
+              "Este valor mostrará una lista con una diferencia de 3 horas.",
             inline: false,
           },
         ],
       },
     });
 
-  if (args[0] === "day") {
+  if (args[0] === "now") {
     const { location, update, temp, humedad, state } = await getGael();
 
     return message.channel.send({
@@ -60,27 +63,14 @@ module.exports = async (client, message, args) => {
         },
       },
     });
-  } else if (args[0] === "more") {
-    const {
-      wind,
-      units,
-      pressure,
-      sun,
-      moon,
-      uv_index_max,
-      messUV,
-    } = await getMeteored();
+  } else if (args[0] === "day") {
+    const { fields } = await getMeteored();
 
     return message.channel.send({
       embed: {
         color: "#7B68EE",
         title: `Más datos de Concepción 🛰️`,
-        fields: [
-          {
-            name: "Velocidad del viento",
-            value: `min ${wind.speed}${units.wind} max ${wind.gusts}${units.wind}`,
-          },
-        ],
+        fields: fields,
         url: null,
         timestamp: new Date(),
         footer: {
@@ -92,11 +82,12 @@ module.exports = async (client, message, args) => {
   } else {
     return message.channel.send({
       embed: {
-        title: `Datos no coinciden 🛰️`,
+        color: "#FFFF00",
+        title: `Datos no coinciden ⚠️`,
         fields: [
           {
-            name: "Puedes ingresar ",
-            value: "estado",
+            name: "Debes ingresar ➡️ #conce ",
+            value: "Para ver lista de comandos",
           },
         ],
         timestamp: new Date(),

@@ -6,26 +6,28 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+(0, _getMeteorology.getMeteored)();
+
 module.exports = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* (client, message, args) {
     if (!args[0]) return message.channel.send({
       embed: {
         color: "#FFFF00",
-        title: "Debes ingresar un valor",
-        description: "Lista de argumentos disponible",
+        title: "No has ingresado un argumento",
+        description: "Lista de comandos disponibles",
         fields: [{
-          name: "#conce day",
-          value: "Este valor mostrara la temperatura actual",
+          name: "#conce now",
+          value: "Este valor mostrará la temperatura actual",
           inline: false
         }, {
-          name: "#conce more",
-          value: "Este valor mostrara la temperatura actual",
+          name: "#conce day",
+          value: "Este valor mostrará una lista con una diferencia de 3 horas.",
           inline: false
         }]
       }
     });
 
-    if (args[0] === "day") {
+    if (args[0] === "now") {
       var {
         location,
         update,
@@ -63,24 +65,15 @@ module.exports = /*#__PURE__*/function () {
           }
         }
       });
-    } else if (args[0] === "more") {
+    } else if (args[0] === "day") {
       var {
-        wind,
-        units,
-        pressure,
-        sun,
-        moon,
-        uv_index_max,
-        messUV
+        fields
       } = yield (0, _getMeteorology.getMeteored)();
       return message.channel.send({
         embed: {
           color: "#7B68EE",
           title: "M\xE1s datos de Concepci\xF3n \uD83D\uDEF0\uFE0F",
-          fields: [{
-            name: "Velocidad del viento",
-            value: "min ".concat(wind.speed).concat(units.wind, " max ").concat(wind.gusts).concat(units.wind)
-          }],
+          fields: fields,
           url: null,
           timestamp: new Date(),
           footer: {
@@ -92,10 +85,11 @@ module.exports = /*#__PURE__*/function () {
     } else {
       return message.channel.send({
         embed: {
-          title: "Datos no coinciden \uD83D\uDEF0\uFE0F",
+          color: "#FFFF00",
+          title: "Datos no coinciden \u26A0\uFE0F",
           fields: [{
-            name: "Puedes ingresar ",
-            value: "estado"
+            name: "Debes ingresar ➡️ #conce ",
+            value: "Para ver lista de comandos"
           }],
           timestamp: new Date()
         }

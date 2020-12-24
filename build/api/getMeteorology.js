@@ -29,9 +29,6 @@ function _getMeteored() {
       var dia = Object.values(result.day);
       var hoy = dia[0];
       var {
-        units,
-        uv_index_max,
-        pressure,
         sun,
         moon,
         hour
@@ -43,7 +40,8 @@ function _getMeteored() {
           temp,
           humidity,
           clouds,
-          rain
+          rain,
+          uv_index
         } = _ref;
         return {
           wind,
@@ -51,31 +49,36 @@ function _getMeteored() {
           temp,
           humidity,
           clouds,
-          rain
+          rain,
+          uv_index,
+          message: valorUv(uv_index)
         };
       });
-      console.log(obj);
-      var message;
-
-      if (uv_index_max <= 3) {
-        message = "baja";
-      } else if (uv_index_max > 3 && uv_index_max <= 6) {
-        message = "moderada";
-      } else if (uv_index_max > 6 && uv_index_max <= 8) {
-        message = "alta";
-      } else if (uv_index_max > 8 && uv_index_max <= 11) {
-        message = "muy alta";
-      } else {
-        message = "extremadamente alta";
-      }
-
+      var fields = [];
+      obj.forEach(element => {
+        fields.push({
+          name: "\u27A1\uFE0F Hora ".concat(element.interval, ", Temp ").concat(element.temp, "\xB0, Humedad ").concat(element.humidity, "%"),
+          value: "Velocidad del viento ".concat(element.wind.speed, " km/h min, ").concat(element.wind.gusts, " km/h max, direcci\xF3n ").concat(element.wind.dir),
+          inline: false
+        });
+        fields.push({
+          name: "Nubes ".concat(element.clouds, ", lluvia ").concat(element.rain),
+          value: "Radiaci\xF3n UV ".concat(element.uv_index, " ~ ").concat(element.message),
+          inline: false
+        });
+      });
+      fields.push({
+        name: "Sol \u2600\uFE0F",
+        value: "Salida ".concat(sun.in, " ~ Oculta ").concat(sun.out),
+        inline: false
+      });
+      fields.push({
+        name: "Luna \uD83C\uDF15 ".concat(moon.desc),
+        value: "Salida ".concat(moon.in, " ~ Oculta ").concat(moon.out),
+        inline: false
+      });
       return {
-        units,
-        pressure,
-        sun,
-        moon,
-        uv_index_max,
-        messUV: message
+        fields
       };
     } catch (error) {
       console.log(error);
@@ -83,6 +86,24 @@ function _getMeteored() {
     }
   });
   return _getMeteored.apply(this, arguments);
+}
+
+function valorUv(uv_index) {
+  var message;
+
+  if (uv_index <= 3) {
+    message = "baja";
+  } else if (uv_index > 3 && uv_index <= 6) {
+    message = "moderada";
+  } else if (uv_index > 6 && uv_index <= 8) {
+    message = "alta";
+  } else if (uv_index > 8 && uv_index <= 11) {
+    message = "muy alta";
+  } else {
+    message = "extremadamente alta";
+  }
+
+  return message;
 }
 
 function getGael() {
