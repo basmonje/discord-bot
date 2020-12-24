@@ -1,4 +1,19 @@
 require("dotenv").config();
+const express = require("express");
+const app = express();
+
+const path = __dirname.substring(0, __dirname.length - 3);
+
+app.get("/", (req, res) => {
+  res.sendFile(path + "/views/index.html");
+});
+
+app.use(express.static(path + "/public"));
+
+app.listen(4000, () => {
+  console.log("Servidor en puerto 4000");
+});
+
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const { readdirSync } = require("fs");
@@ -22,13 +37,12 @@ for (const file of readdirSync("./src/eventos/")) {
   }
 }
 
-/* console.log(client); */
-
 client
   .login(process.env.TOKEN)
   .then(() => {
-    console.log(`En escucha,
-  conectado en ${client.guilds.cache.size} servidores y hay disponibles ${client.users.cache.size} usuarios.`);
+    console.log(
+      `En escucha, conectado en ${client.guilds.cache.size} servidores y hay disponibles ${client.users.cache.size} usuarios.`
+    );
   })
   .catch((err) => {
     console.error("Error al iniciar sesión en Discord " + err);

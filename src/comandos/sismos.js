@@ -1,39 +1,51 @@
-const fetch = require("node-fetch");
-
-const sismos = "https://api.gael.cl/general/public/sismos";
-
-async function getSismos() {
-  const get = await fetch(sismos);
-  const response = await get.json();
-  return response;
-}
+const getEarthquakes = require("../api/getEarthquakes");
 
 module.exports = async (client, message, args) => {
-  const res = await getSismos();
+  const response = await getEarthquakes();
+  const res = response.data;
 
   message.channel.send({
     embed: {
-      color: 3447003,
-      title: "Últimos Sismos",
+      color: "0x0099ff",
+      title: "Últimos Sismos registrados en Chile ⛰️",
+      description: "➡️ Muestra de los últimos 5 sismos registrados en Chile 🗿",
       author: {
-        icon_url: client.user.avatarURL(),
+        name: "Sismoslogía de Chile",
+        url: "http://www.sismologia.cl/",
       },
       fields: [
         {
-          name: `${res[0].RefGeografica} | ${res[0].Fecha}`,
-          value: `Magnitud ${res[0].Magnitud} | Profundidad ${res[0].Profundidad} m`,
+          name: `1. Magnitud ${res[0].magnitud} 🧿 Hora ${res[0].hora}`,
+          value: `${res[0].ref} 🗺️ Profundidad ${res[0].profundidad} m`,
+          inline: false,
         },
         {
-          name: `${res[1].RefGeografica} | ${res[1].Fecha}`,
-          value: `Magnitud ${res[1].Magnitud} | Profundidad ${res[1].Profundidad} m`,
+          name: `2. Magnitud ${res[1].magnitud} 🧿 Hora ${res[1].hora}`,
+          value: `${res[1].ref} 🗺️ Profundidad ${res[1].profundidad} m`,
+          inline: false,
         },
         {
-          name: `${res[2].RefGeografica} | ${res[2].Fecha}`,
-          value: `Magnitud ${res[2].Magnitud} | Profundidad ${res[2].Profundidad} m`,
+          name: `Magnitud ${res[2].magnitud} 🧿 Hora ${res[2].hora}`,
+          value: `${res[2].ref} 🗺️ Profundidad ${res[2].profundidad} m`,
+          inline: false,
+        },
+        {
+          name: `Magnitud ${res[3].magnitud} 🧿 Hora ${res[3].hora}`,
+          value: `${res[3].ref} 🗺️ Profundidad ${res[3].profundidad} m`,
+          inline: false,
+        },
+        {
+          name: `Magnitud ${res[4].magnitud} 🧿 Hora ${res[4].hora}`,
+          value: `${res[4].ref} 🗺️ Profundidad ${res[4].profundidad} m`,
+          inline: false,
         },
       ],
-      url: null,
       timestamp: new Date(),
+      footer: {
+        text: "basmonje",
+        icon_url:
+          "https://avatars2.githubusercontent.com/u/47266631?s=400&u=ef04c7c60515db1079cc3b0e65b624c46a13240c&v=4",
+      },
     },
   });
 };
